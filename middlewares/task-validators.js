@@ -1,8 +1,18 @@
-import { body } from 'express-validator';
+import { body, param } from 'express-validator';
 import { checkValidators } from './check-validators.js';
 
 export const validateCreateTask = [
     body('title').notEmpty().withMessage('Título es requerido'),
-    body('user').isMongoId().withMessage('ID de usuario no válido'),
+    checkValidators
+];
+export const validateGetTaskById = [
+    param('id').isMongoId().withMessage('ID no válido'),
+    checkValidators
+];
+
+export const validateUpdateTask = [
+    param('id').isMongoId().withMessage('ID no válido'),
+    body('title').optional().notEmpty(),
+    body('status').optional().isIn(['PENDING', 'COMPLETED']),
     checkValidators
 ];

@@ -1,7 +1,7 @@
 'use strict';
 import mongoose from 'mongoose';
 
-export const dbConnecion = async () => {
+export const dbConnection = async () => {
     try {
         mongoose.connection.on('error', () => {
             console.log('MongoDB | Error de conexión');

@@ -1,10 +1,11 @@
 import { Router } from 'express';
-import { getContacts, createContact } from './contact.controller.js';
-import { validateCreateContact } from '../../middlewares/contact-validators.js';
+import { getContacts, createContact, getContactById, updateContact } from './contact.controller.js';
+import { validateCreateContact, validateGetContactById, validateUpdateContact } from '../../middlewares/contact-validators.js';
 import { uploadContactImage } from '../../middlewares/file-uploader.js';
 
 const router = Router();
 router.get('/', getContacts);
 router.post('/', uploadContactImage.single('image'), validateCreateContact, createContact);
-
+router.get('/:id', validateGetContactById, getContactById);
+router.put('/:id', uploadContactImage.single('image'), validateUpdateContact, updateContact);
 export default router;

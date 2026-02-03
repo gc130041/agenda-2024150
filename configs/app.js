@@ -3,7 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import { corsOptions } from './cors-configuration.js';
-import { dbConnecion } from './db.js';
+import { dbConnection } from './db.js';
 import userRoutes from '../src/users/user.routes.js';
 import contactRoutes from '../src/contacts/contact.routes.js';
 import taskRoutes from '../src/tasks/task.routes.js';
@@ -27,7 +27,7 @@ const initServer = async () => {
     const app = express();
     const PORT = process.env.PORT || 3005;
     try {
-        await dbConnecion();
+        await dbConnection();
         middlewares(app);
         routes(app);
 
