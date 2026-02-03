@@ -3,7 +3,7 @@ import { cloudinary } from '../../middlewares/file-uploader.js';
 
 export const getContacts = async (req, res) => {
     try {
-        const contacts = await Contact.find(); 
+        const contacts = await Contact.find({ status: true });
         res.status(200).json({ success: true, data: contacts });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
@@ -52,5 +52,24 @@ export const updateContact = async (req, res) => {
         res.status(200).json({ success: true, data: contact });
     } catch (error) {
         res.status(400).json({ success: false, message: error.message });
+    }
+};
+
+export const toggleContactStatus = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const contact = await Contact.findById(id);
+        if (!contact) return res.status(404).json({ success: false, message: 'Contacto no encontrado' });
+
+        contact.status = !contact.status;
+        await contact.save();
+
+        res.status(200).json({ 
+            success: true, 
+            message: `Contacto ${contact.status ? 'activado' : 'desactivado'}`,
+            status: contact.status 
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
     }
 };
